@@ -1,0 +1,25 @@
+{
+  "name": "evaluacion-backend-sesion-1",
+  "version": "1.0.0",
+  "description": "Evaluación Sesión 1: Setup + Modelo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Estudiante",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.0",
+    "multiparty": "^4.2.3",
+    "pdfkit": "^0.18.0",
+    "validator": "^13.15.35"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

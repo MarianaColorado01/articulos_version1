@@ -1,0 +1,103 @@
+<main class="container">
+  <h1>CRUD de Articulos</h1>
+  <p class="subtitle">Frontend Angular conectado al backend existente</p>
+
+  @if (errorMessage) {
+    <p class="alert error">{{ errorMessage }}</p>
+  }
+
+  @if (successMessage) {
+    <p class="alert success">{{ successMessage }}</p>
+  }
+
+  <section class="card">
+    <h2>{{ editingId ? 'Editar articulo' : 'Crear articulo' }}</h2>
+
+    <form [formGroup]="articleForm" (ngSubmit)="submitForm()" class="form-grid">
+      <label>
+        Titulo
+        <input type="text" formControlName="titulo" />
+      </label>
+
+      <label>
+        Descripcion
+        <textarea rows="3" formControlName="descripcion"></textarea>
+      </label>
+
+      <label>
+        Precio
+        <input type="number" min="0.01" step="0.01" formControlName="precio" />
+      </label>
+
+      <label>
+        Categoria
+        <select formControlName="categoria">
+          @for (category of categories; track category) {
+            <option [value]="category">{{ category }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Imagen
+        <input type="file" accept=".jpg,.jpeg,.png,.gif" (change)="onImageSelected($event)" />
+      </label>
+
+      <div class="actions">
+        <button type="submit" [disabled]="articleForm.invalid">{{ editingId ? 'Actualizar' : 'Guardar' }}</button>
+        @if (editingId) {
+          <button type="button" class="secondary" (click)="cancelEdit()">Cancelar</button>
+        }
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="table-header">
+      <h2>Listado de articulos</h2>
+      <button class="secondary" (click)="fetchArticles()">Recargar</button>
+    </div>
+
+    @if (loading) {
+      <p>Cargando...</p>
+    } @else if (articles.length === 0) {
+      <p>No hay articulos registrados.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Categoria</th>
+            <th>Imagen</th>
+            <!-- <th>Acciones</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          @for (article of articles; track article._id) {
+            <tr>
+              <td>{{ article.titulo }}</td>
+              <td>{{ article.descripcion }}</td>
+              <td>{{ article.precio | currency: 'COP':'symbol':'1.0-0' }}</td>
+              <td>{{ article.categoria }}</td>
+              <td>
+                @if (article.imagen) {
+                  <img [src]="getImageUrl(article.imagen)" alt="Imagen articulo" class="thumb" />
+                } @else {
+                  <span>Sin imagen</span>
+                }
+              </td>
+              <!--
+              <td class="actions-row">
+                <button type="button" class="secondary" (click)="startEdit(article)">Editar</button>
+                <button type="button" class="danger" (click)="deleteArticle(article._id)">Eliminar</button>
+              </td>
+              -->
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+</main>
